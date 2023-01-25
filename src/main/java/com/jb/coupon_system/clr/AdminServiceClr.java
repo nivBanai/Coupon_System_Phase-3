@@ -2,6 +2,8 @@ package com.jb.coupon_system.clr;
 
 import com.jb.coupon_system.beans.Company;
 import com.jb.coupon_system.beans.Customer;
+import com.jb.coupon_system.dto.CompanyPayload;
+import com.jb.coupon_system.dto.CustomerPayload;
 import com.jb.coupon_system.enums.ClientType;
 import com.jb.coupon_system.login.LoginService;
 import com.jb.coupon_system.services.admin_service.AdminService;
@@ -24,58 +26,58 @@ public class AdminServiceClr implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         //Companies
-        Company comp1 = Company.builder()
+        CompanyPayload comp1 = CompanyPayload.builder()
                 .name("Pepsi")
                 .email("pepsi@yahoo.com")
                 .password("12345")
                 .build();
-        Company comp2 = Company.builder()
+        CompanyPayload comp2 = CompanyPayload.builder()
                 .name("Konami")
                 .email("konami@gmail.com")
                 .password("12345")
                 .build();
-        Company comp3 = Company.builder()
+        CompanyPayload comp3 = CompanyPayload.builder()
                 .name("Nintendo")
                 .email("nintendo@gmail.com")
                 .password("12345")
                 .build();
-        Company comp4 = Company.builder()
+        CompanyPayload comp4 = CompanyPayload.builder()
                 .name("Yes Planet")
                 .email("yes-palnet@walla.com")
                 .password("12345")
                 .build();
-        Company comp5 = Company.builder()
+        CompanyPayload comp5 = CompanyPayload.builder()
                 .name("McDonald's")
                 .email("mcdonalds@gmail.com")
                 .password("12345")
                 .build();
 
         //Customers
-        Customer cus1 = Customer.builder()
+        CustomerPayload cus1 = CustomerPayload.builder()
                 .firstName("Niv")
                 .lastName("Banai")
                 .email("niv@gmail.com")
                 .password("12345")
                 .build();
-        Customer cus2 = Customer.builder()
+        CustomerPayload cus2 = CustomerPayload.builder()
                 .firstName("Rotem")
                 .lastName("Kabir")
                 .email("rotem@gmail.com")
                 .password("12345")
                 .build();
-        Customer cus3 = Customer.builder()
+        CustomerPayload cus3 = CustomerPayload.builder()
                 .firstName("Euclides")
                 .lastName("Fibonacci")
                 .email("euclides@gmail.com")
                 .password("12345")
                 .build();
-        Customer cus4 = Customer.builder()
+        CustomerPayload cus4 = CustomerPayload.builder()
                 .firstName("Pooki")
                 .lastName("S")
                 .email("pooki@gmail.com")
                 .password("12345")
                 .build();
-        Customer cus5 = Customer.builder()
+        CustomerPayload cus5 = CustomerPayload.builder()
                 .firstName("Yoshi")
                 .lastName("Munchakoopas")
                 .email("yoshi@gmail.com")
@@ -103,7 +105,7 @@ public class AdminServiceClr implements CommandLineRunner {
 
         PrintUtils.printExceptionTitle("Add company exception (email exception)");
         try {
-            adminService.addCompany(Company.builder()
+            adminService.addCompany(CompanyPayload.builder()
                     .name("Email exception")
                     .email("konami@gmail.com")
                     .password("67890")
@@ -113,7 +115,7 @@ public class AdminServiceClr implements CommandLineRunner {
         }
         PrintUtils.printExceptionTitle("Add company exception (name exception)");
         try {
-            adminService.addCompany(Company.builder()
+            adminService.addCompany(CompanyPayload.builder()
                     .name("Konami")
                     .email("Name exception")
                     .password("12345")
@@ -130,14 +132,14 @@ public class AdminServiceClr implements CommandLineRunner {
         //update company
         Company compToUpdate = adminService.getSingleCompany(2);
         compToUpdate.setPassword("54321");
-        adminService.updateCompany(2, compToUpdate);
+//        adminService.updateCompany(2, compToUpdate);
         PrintUtils.print("Single company after update");
         System.out.println(adminService.getSingleCompany(2));
 
         PrintUtils.printExceptionTitle("Update company exception (id exception)");
         try {
             compToUpdate.setId(7);
-            adminService.updateCompany(2, compToUpdate);
+//            adminService.updateCompany(2, compToUpdate);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -145,7 +147,7 @@ public class AdminServiceClr implements CommandLineRunner {
         try {
             compToUpdate.setId(2);
             compToUpdate.setName("Exception");
-            adminService.updateCompany(2, compToUpdate);
+//            adminService.updateCompany(2, compToUpdate);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
@@ -159,7 +161,7 @@ public class AdminServiceClr implements CommandLineRunner {
 
         PrintUtils.printExceptionTitle("Add customer exception");
         try {
-            adminService.addCustomer(Customer.builder()
+            adminService.addCustomer(CustomerPayload.builder()
                     .firstName("Ex")
                     .lastName("Ception")
                     .email("pooki@gmail.com")
@@ -177,14 +179,14 @@ public class AdminServiceClr implements CommandLineRunner {
         //update customer
         Customer cusToUpdate = adminService.getSingleCustomer(3);
         cusToUpdate.setPassword("54321");
-        adminService.updateCustomer(3, cusToUpdate);
+//        adminService.updateCustomer(3, cusToUpdate);
         PrintUtils.print("Single customer after update");
         System.out.println(adminService.getSingleCustomer(3));
 
         PrintUtils.printExceptionTitle("Update customer exception");
         try {
             cusToUpdate.setId(5);
-            adminService.updateCustomer(3, cusToUpdate);
+//            adminService.updateCustomer(3, cusToUpdate);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

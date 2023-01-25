@@ -21,7 +21,8 @@ public enum ErrorMsg {
     COUPON_PURCHASE_LIMIT("Cannot purchase one coupon multiple times"),
     OUT_OF_STOCK("Coupon is currently out of stock"),
     COUPON_EXPIRED("Coupon has expired"),
-    COUPON_NOT_FOUND("Did not find coupon");
+    COUPON_NOT_FOUND("Did not find coupon"),
+    ACCESS_DENIED("Access Denied");
 
     private final String MSG;
 }

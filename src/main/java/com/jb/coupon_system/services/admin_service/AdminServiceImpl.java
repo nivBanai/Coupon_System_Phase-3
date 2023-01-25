@@ -2,12 +2,15 @@ package com.jb.coupon_system.services.admin_service;
 
 import com.jb.coupon_system.beans.Company;
 import com.jb.coupon_system.beans.Customer;
+import com.jb.coupon_system.dto.CompanyPayload;
+import com.jb.coupon_system.dto.CustomerPayload;
 import com.jb.coupon_system.enums.ErrorMsg;
 import com.jb.coupon_system.exceptions.CouponSystemException;
 import com.jb.coupon_system.services.ClientService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -25,38 +28,47 @@ public class AdminServiceImpl extends ClientService implements AdminService {
     }
 
     @Override
-    public int getId(String email, String password) throws CouponSystemException {
+    public int getId(String email) {
         return -1;
     }
 
     @Override
-    public void addCompany(Company company) throws CouponSystemException {
-        if (this.companyRepository.existsByEmail(company.getEmail())) {
+    public Company addCompany(CompanyPayload companyPayload) throws CouponSystemException {
+        if (this.companyRepository.existsByEmail(companyPayload.getEmail())) {
             throw new CouponSystemException(ErrorMsg.EMAIL_TAKEN);
         }
-        if (this.companyRepository.existsByName(company.getName())) {
+        if (this.companyRepository.existsByName(companyPayload.getName())) {
             throw new CouponSystemException(ErrorMsg.NAME_TAKEN);
         }
-        this.companyRepository.save(company);
+
+        return this.companyRepository.save(Company.builder()
+                .name(companyPayload.getName())
+                .email(companyPayload.getEmail())
+                .password(companyPayload.getPassword())
+                .coupons(new ArrayList<>())
+                .build());
     }
 
     @Override
-    public void updateCompany(int companyId, Company company) throws CouponSystemException {
+    public Company updateCompany(int companyId, CompanyPayload companyPayload) throws CouponSystemException {
         Company originalCompany = this.companyRepository.findById(companyId)
                 .orElseThrow(() -> new CouponSystemException(ErrorMsg.COMPANY_NOT_FOUND));
-        if (companyId != company.getId()) {
-            throw new CouponSystemException(ErrorMsg.COMPANY_ID_ERROR);
-        }
-        if (!Objects.equals(originalCompany.getName(), company.getName())) {
+
+        if (!Objects.equals(originalCompany.getName(), companyPayload.getName())) {
             throw new CouponSystemException(ErrorMsg.COMPANY_NAME_ERROR);
         }
-        company.setId(companyId);
-        this.companyRepository.saveAndFlush(company);
+
+        originalCompany.setId(companyId);
+        originalCompany.setName(companyPayload.getName());
+        originalCompany.setEmail(companyPayload.getEmail());
+        originalCompany.setPassword(companyPayload.getPassword());
+        originalCompany.setCoupons(this.couponRepository.findByCompanyId(companyId));
+        return this.companyRepository.saveAndFlush(originalCompany);
+        // TODO: 25/01/2023 check if good(+id?)
     }
 
     @Override
     public void deleteCompany(int companyId) {
-//        couponRepository.deletePurchaseHistoryByCompanyId(companyId);
         companyRepository.deleteById(companyId);
     }
 
@@ -72,25 +84,39 @@ public class AdminServiceImpl extends ClientService implements AdminService {
     }
 
     @Override
-    public void addCustomer(Customer customer) throws CouponSystemException {
-        if (this.customerRepository.existsByEmail(customer.getEmail())) {
+    public Customer addCustomer(CustomerPayload customerPayload) throws CouponSystemException {
+        if (this.customerRepository.existsByEmail(customerPayload.getEmail())) {
             throw new CouponSystemException(ErrorMsg.EMAIL_TAKEN);
         }
-        this.customerRepository.save(customer);
+        return this.customerRepository.save(Customer.builder()
+                .firstName(customerPayload.getFirstName())
+                .lastName(customerPayload.getLastName())
+                .email(customerPayload.getEmail())
+                .password(customerPayload.getPassword())
+                .coupons(new ArrayList<>())
+                .build());
     }
 
     @Override
-    public void updateCustomer(int customerId, Customer customer) throws CouponSystemException {
-        if (customerId != customer.getId()) {
-            throw new CouponSystemException(ErrorMsg.CUSTOMER_ID_ERROR);
-        }
-        customer.setId(customerId);
-        this.customerRepository.saveAndFlush(customer);
+    public Customer updateCustomer(int customerId, CustomerPayload customerPayload) throws CouponSystemException {
+
+        Customer originalCustomer = this.customerRepository.findById(customerId)
+                .orElseThrow(() -> new CouponSystemException(ErrorMsg.CUSTOMER_NOT_FOUND));
+
+        originalCustomer.setId(customerId);
+        // TODO: 25/01/2023 need id and coupons? 
+        originalCustomer.setFirstName(customerPayload.getFirstName());
+        originalCustomer.setLastName(customerPayload.getLastName());
+        originalCustomer.setEmail(customerPayload.getEmail());
+        originalCustomer.setPassword(customerPayload.getPassword());
+        originalCustomer.setCoupons(this.couponRepository.findByCustomerId(customerId));
+
+        return this.customerRepository.saveAndFlush(originalCustomer);
+        // TODO: 25/01/2023 check if good(+id?)
     }
 
     @Override
     public void deleteCustomer(int customerId) {
-//        this.couponRepository.deletePurchaseHistoryByCustomerId(customerId);
         this.customerRepository.deleteById(customerId);
     }
 

@@ -11,8 +11,6 @@ import com.jb.coupon_system.utils.PrintUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
 public class LoginService {
 
@@ -22,17 +20,16 @@ public class LoginService {
     private ClientService companyServiceImpl;
     @Autowired
     private ClientService customerServiceImpl;
-
     @Autowired
     private TokenService tokenService;
 
     public LoginResDto login(LoginReqDto loginReqDto) throws CouponSystemException {
-        System.out.println(loginReqDto);
         String email = loginReqDto.getEmail();
         String password = loginReqDto.getPassword();
-        ClientType type = loginReqDto.getClientType();
-        ClientService clientService = null;
-        switch (type) {
+        ClientType clientType = loginReqDto.getClientType();
+        ClientService clientService;
+
+        switch (clientType) {
             case ADMINISTRATOR:
                 if (adminServiceImpl.login(email, password)) {
                     PrintUtils.printSuccess("Admin logged-in successfully!");
@@ -54,10 +51,9 @@ public class LoginService {
             default:
                 throw new CouponSystemException(ErrorMsg.LOGIN_ERROR);
         }
-        int clientId = clientService.getId(email, password);
-        UUID token = tokenService.createToken(clientService, type, clientId);
+
         return LoginResDto.builder()
-                .token(token)
+                .token(tokenService.createToken(clientService, clientType, clientService.getId(email)))
                 .build();
     }
 }

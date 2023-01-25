@@ -17,5 +17,5 @@ public abstract class ClientService {
 
 
     public abstract boolean login(String email, String password) throws CouponSystemException;
-    public abstract int getId(String email, String password) throws CouponSystemException;
+    public abstract int getId(String email) throws CouponSystemException;
 }

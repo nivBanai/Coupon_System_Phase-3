@@ -1,8 +1,8 @@
 package com.jb.coupon_system.services.token_servic;
 
-import com.jb.coupon_system.beans.Company;
-import com.jb.coupon_system.beans.Customer;
 import com.jb.coupon_system.enums.ClientType;
+import com.jb.coupon_system.enums.ErrorMsg;
+import com.jb.coupon_system.exceptions.CouponSystemException;
 import com.jb.coupon_system.security.Info;
 import com.jb.coupon_system.services.ClientService;
 import lombok.RequiredArgsConstructor;
@@ -21,30 +21,38 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public UUID createToken(ClientService client, ClientType clientType, int clientId) {
         UUID token = UUID.randomUUID();
-        LocalDateTime time = LocalDateTime.now();
-        ClientType type = clientType;
 
-        Info info = Info.builder()
+        map.put(token,
+                Info.builder()
                 .id(clientId)
                 .clientType(clientType)
-                .time(time)
-                .build();
-        map.put(token, info);
+                .time(LocalDateTime.now())
+                .build());
+
         return token;
     }
 
     @Override
     public void clearTokens() {
-
+        map.values().removeIf(info->info.getTime().isBefore(LocalDateTime.now().minusMinutes(30)));
+        // TODO: 25/01/2023 (add utils) 
     }
 
     @Override
-    public boolean isValid(UUID token, ClientType clientType) {
-        return false;
+    public boolean isTokenValid(UUID token, ClientType clientType) throws CouponSystemException {
+        Info info = map.get(token);
+        if (info == null){
+            throw new CouponSystemException(ErrorMsg.ACCESS_DENIED);
+        }
+        return info.getClientType().equals(clientType);
     }
 
     @Override
-    public int getUserId(UUID token) {
-        return 0;
+    public int getUserId(UUID token) throws CouponSystemException {
+        Info info = map.get(token);
+        if (info == null){
+            throw new CouponSystemException(ErrorMsg.ACCESS_DENIED);
+        }
+        return info.getId();
     }
 }

@@ -201,11 +201,11 @@ public class Test implements CommandLineRunner {
         PrintUtils.printTitle("ADMIN SERVICE TESTING");
 
         //add company
-        adminService.addCompany(comp1);
-        adminService.addCompany(comp2);
-        adminService.addCompany(comp3);
-        adminService.addCompany(comp4);
-        adminService.addCompany(comp5);
+//        adminService.addCompany(comp1);
+//        adminService.addCompany(comp2);
+//        adminService.addCompany(comp3);
+//        adminService.addCompany(comp4);
+//        adminService.addCompany(comp5);
 
         //add company exception
         //email exception
@@ -229,7 +229,7 @@ public class Test implements CommandLineRunner {
         //update company
         Company compToUpdate = adminService.getSingleCompany(2);
         compToUpdate.setPassword("54321");
-        adminService.updateCompany(2, compToUpdate);
+//        adminService.updateCompany(2, compToUpdate);
         PrintUtils.print("Single company after update");
         System.out.println(adminService.getSingleCompany(2));
 
@@ -242,11 +242,11 @@ public class Test implements CommandLineRunner {
 //        adminService.updateCompany(2,compToUpdate);
 
         //add customer
-        adminService.addCustomer(cus1);
-        adminService.addCustomer(cus2);
-        adminService.addCustomer(cus3);
-        adminService.addCustomer(cus4);
-        adminService.addCustomer(cus5);
+//        adminService.addCustomer(cus1);
+//        adminService.addCustomer(cus2);
+//        adminService.addCustomer(cus3);
+//        adminService.addCustomer(cus4);
+//        adminService.addCustomer(cus5);
 
         //add customer exception
 //        adminService.addCustomer(Customer.builder()
@@ -264,7 +264,7 @@ public class Test implements CommandLineRunner {
         //update customer
         Customer cusToUpdate = adminService.getSingleCustomer(3);
         cusToUpdate.setPassword("54321");
-        adminService.updateCustomer(3, cusToUpdate);
+//        adminService.updateCustomer(3, cusToUpdate);
         PrintUtils.print("Single customer after update");
         System.out.println(adminService.getSingleCustomer(3));
 
@@ -275,16 +275,16 @@ public class Test implements CommandLineRunner {
         PrintUtils.printTitle("COMPANY SERVICE TESTING");
 
         //add coupon
-        companyService.addCoupon(1, coup1);
-        companyService.addCoupon(1, coup2);
-        companyService.addCoupon(1, coup3);
-        companyService.addCoupon(2, coup4);
-        companyService.addCoupon(3, coup5);
-        companyService.addCoupon(4, coup6);
-        companyService.addCoupon(4, coup7);
-        companyService.addCoupon(5, coup8);
-        companyService.addCoupon(5, coup9);
-        companyService.addCoupon(5, coup10);
+//        companyService.addCoupon(1, coup1);
+//        companyService.addCoupon(1, coup2);
+//        companyService.addCoupon(1, coup3);
+//        companyService.addCoupon(2, coup4);
+//        companyService.addCoupon(3, coup5);
+//        companyService.addCoupon(4, coup6);
+//        companyService.addCoupon(4, coup7);
+//        companyService.addCoupon(5, coup8);
+//        companyService.addCoupon(5, coup9);
+//        companyService.addCoupon(5, coup10);
 
         //add coupon exception
 //        companyService.addCoupon(5, Coupon.builder()
@@ -299,7 +299,7 @@ public class Test implements CommandLineRunner {
         Coupon couponToUpdate = couponRepository.findById(7)
                 .orElseThrow(() -> new CouponSystemException(ErrorMsg.COUPON_NOT_FOUND));
         couponToUpdate.setPrice(200);
-        companyService.updateCoupon(4, 7, couponToUpdate);
+//        companyService.updateCoupon(4, 7, couponToUpdate);
         PrintUtils.print("Company coupons after update");
         companyService.getCompanyCoupons(4).forEach(System.out::println);
 

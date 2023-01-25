@@ -1,6 +1,7 @@
 package com.jb.coupon_system.clr;
 
 import com.jb.coupon_system.beans.Coupon;
+import com.jb.coupon_system.dto.CouponPayload;
 import com.jb.coupon_system.enums.Category;
 import com.jb.coupon_system.enums.ClientType;
 import com.jb.coupon_system.enums.ErrorMsg;
@@ -31,7 +32,7 @@ public class CompanyServiceClr implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
         //Coupons
-        Coupon coup1 = Coupon.builder()
+        CouponPayload coup1 = CouponPayload.builder()
                 .category(Category.FOOD)
                 .title("Coupon 1")
                 .description("Description 1")
@@ -41,7 +42,7 @@ public class CompanyServiceClr implements CommandLineRunner {
                 .price(12.5)
                 .image("www.coupon1.com")
                 .build();
-        Coupon coup2 = Coupon.builder()
+        CouponPayload coup2 = CouponPayload.builder()
                 .category(Category.FOOD)
                 .title("Coupon 2")
                 .description("Description 2")
@@ -51,7 +52,7 @@ public class CompanyServiceClr implements CommandLineRunner {
                 .price(15.3)
                 .image("www.coupon2.com")
                 .build();
-        Coupon coup3 = Coupon.builder()
+        CouponPayload coup3 = CouponPayload.builder()
                 .category(Category.FOOD)
                 .title("Coupon 3")
                 .description("Description 3")
@@ -61,7 +62,7 @@ public class CompanyServiceClr implements CommandLineRunner {
                 .price(18.7)
                 .image("www.coupon3.com")
                 .build();
-        Coupon coup4 = Coupon.builder()
+        CouponPayload coup4 = CouponPayload.builder()
                 .category(Category.TRADING_CARDS)
                 .title("Coupon 4")
                 .description("Description 4")
@@ -71,7 +72,7 @@ public class CompanyServiceClr implements CommandLineRunner {
                 .price(14.4)
                 .image("www.coupon4.com")
                 .build();
-        Coupon coup5 = Coupon.builder()
+        CouponPayload coup5 = CouponPayload.builder()
                 .category(Category.VIDEO_GAMES)
                 .title("Coupon 5")
                 .description("Description 5")
@@ -81,7 +82,7 @@ public class CompanyServiceClr implements CommandLineRunner {
                 .price(10.1)
                 .image("www.coupon5.com")
                 .build();
-        Coupon coup6 = Coupon.builder()
+        CouponPayload coup6 = CouponPayload.builder()
                 .category(Category.CINEMA)
                 .title("Coupon 6")
                 .description("Description 6")
@@ -91,7 +92,7 @@ public class CompanyServiceClr implements CommandLineRunner {
                 .price(11.2)
                 .image("www.coupon6.com")
                 .build();
-        Coupon coup7 = Coupon.builder()
+        CouponPayload coup7 = CouponPayload.builder()
                 .category(Category.CINEMA)
                 .title("Coupon 7")
                 .description("Description 7")
@@ -101,7 +102,7 @@ public class CompanyServiceClr implements CommandLineRunner {
                 .price(19.5)
                 .image("www.coupon7.com")
                 .build();
-        Coupon coup8 = Coupon.builder()
+        CouponPayload coup8 = CouponPayload.builder()
                 .category(Category.FOOD)
                 .title("Coupon 8")
                 .description("Description 8")
@@ -111,7 +112,7 @@ public class CompanyServiceClr implements CommandLineRunner {
                 .price(13.7)
                 .image("www.coupon8.com")
                 .build();
-        Coupon coup9 = Coupon.builder()
+        CouponPayload coup9 = CouponPayload.builder()
                 .category(Category.FOOD)
                 .title("Coupon 9")
                 .description("Description 9")
@@ -121,7 +122,7 @@ public class CompanyServiceClr implements CommandLineRunner {
                 .price(12.5)
                 .image("www.coupon9.com")
                 .build();
-        Coupon coup10 = Coupon.builder()
+        CouponPayload coup10 = CouponPayload.builder()
                 .category(Category.CINEMA)
                 .title("Coupon 10")
                 .description("Description 10")
@@ -158,7 +159,7 @@ public class CompanyServiceClr implements CommandLineRunner {
 
         PrintUtils.printExceptionTitle("Add coupon exception");
         try {
-            companyService.addCoupon(5, Coupon.builder()
+            companyService.addCoupon(5, CouponPayload.builder()
                     .title("Coupon 8")
                     .build());
         } catch (Exception e) {
@@ -173,20 +174,20 @@ public class CompanyServiceClr implements CommandLineRunner {
         Coupon couponToUpdate = couponRepository.findById(8)
                 .orElseThrow(() -> new CouponSystemException(ErrorMsg.COUPON_NOT_FOUND));
         couponToUpdate.setPrice(200);
-        companyService.updateCoupon(5, 8, couponToUpdate);
+//        companyService.updateCoupon(5, 8, couponToUpdate);
         PrintUtils.print("Company coupons after update");
         companyService.getCompanyCoupons(5).forEach(System.out::println);
 
         PrintUtils.printExceptionTitle("Update coupon exception (company id exception)");
         try {
-            companyService.updateCoupon(1, 8, couponToUpdate);
+//            companyService.updateCoupon(1, 8, couponToUpdate);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         PrintUtils.printExceptionTitle("Update coupon exception (coupon id exception)");
         try {
             couponToUpdate.setId(55);
-            companyService.updateCoupon(5, 8, couponToUpdate);
+//            companyService.updateCoupon(5, 8, couponToUpdate);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

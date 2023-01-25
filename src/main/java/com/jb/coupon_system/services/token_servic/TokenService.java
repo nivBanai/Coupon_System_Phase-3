@@ -1,6 +1,7 @@
 package com.jb.coupon_system.services.token_servic;
 
 import com.jb.coupon_system.enums.ClientType;
+import com.jb.coupon_system.exceptions.CouponSystemException;
 import com.jb.coupon_system.services.ClientService;
 
 import java.util.UUID;
@@ -11,7 +12,8 @@ public interface TokenService {
 
     void clearTokens();
 
-    boolean isValid(UUID token, ClientType clientType);
+    boolean isTokenValid(UUID token, ClientType clientType) throws CouponSystemException;
 
-    int getUserId(UUID token);
+    int getUserId(UUID token) throws CouponSystemException;
+
 }
