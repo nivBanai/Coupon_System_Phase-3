@@ -23,5 +23,4 @@ public class CouponPayload {
     private int amount;
     private double price;
     private String image;
-    private Company company;
 }

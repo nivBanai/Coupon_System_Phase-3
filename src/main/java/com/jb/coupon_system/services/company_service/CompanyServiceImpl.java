@@ -46,18 +46,8 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
 
     @Override
     public Coupon updateCoupon(int companyId, int couponId, CouponPayload couponPayload) throws CouponSystemException {
-        // TODO: 25/01/2023 check if needed
-//        int couponCompanyId = this.couponRepository.findCompanyIdById(couponId);
-//        if (companyId != couponCompanyId) {
-//            throw new CouponSystemException(ErrorMsg.COUPON_ACCESS_DENIED);
-//        }
-//        if (couponId != coupon.getId()) {
-//            throw new CouponSystemException(ErrorMsg.COUPON_ID_ERROR);
-//        }
-        // TODO: 25/01/2023 need to set id? 
         Coupon originalCoupon = this.couponRepository.findById(couponId)
                         .orElseThrow(()->new CouponSystemException(ErrorMsg.COUPON_NOT_FOUND));
-        originalCoupon.setId(couponId);
         originalCoupon.setCategory(couponPayload.getCategory());
         originalCoupon.setTitle(couponPayload.getTitle());
         originalCoupon.setDescription(couponPayload.getDescription());
@@ -66,8 +56,6 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
         originalCoupon.setAmount(couponPayload.getAmount());
         originalCoupon.setPrice(couponPayload.getPrice());
         originalCoupon.setImage(couponPayload.getImage());
-        originalCoupon.setCompany(this.companyRepository.findById(companyId)
-                .orElseThrow(() -> new CouponSystemException(ErrorMsg.COMPANY_NOT_FOUND)));
         return this.couponRepository.saveAndFlush(originalCoupon);
     }
 

@@ -9,13 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 public abstract class ClientService {
 
     @Autowired
-    protected  CompanyRepository companyRepository;
+    protected CompanyRepository companyRepository;
     @Autowired
-    protected  CustomerRepository customerRepository;
+    protected CustomerRepository customerRepository;
     @Autowired
-    protected  CouponRepository couponRepository;
+    protected CouponRepository couponRepository;
 
 
     public abstract boolean login(String email, String password) throws CouponSystemException;
+
     public abstract int getId(String email) throws CouponSystemException;
 }

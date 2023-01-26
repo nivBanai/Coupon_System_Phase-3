@@ -28,7 +28,6 @@ public class AdminController {
     @Autowired
     private final TokenService tokenService;
 
-    // TODO: 25/01/2023 check if possible to reduce valid to 1
     @PostMapping("companies")
     @ResponseStatus(HttpStatus.CREATED)
     public Company addCompany(@RequestHeader("Authorization") UUID token, @RequestBody CompanyPayload companyPayload) throws CouponSystemException {
@@ -39,8 +38,6 @@ public class AdminController {
     }
 
     @PutMapping("companies/{companyId}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-    // TODO: 25/01/2023 check if right response
     public Company updateCompany(@RequestHeader("Authorization") UUID token, @PathVariable int companyId, @RequestBody CompanyPayload companyPayload) throws CouponSystemException {
         if (!tokenService.isTokenValid(token, ClientType.ADMINISTRATOR)) {
             throw new CouponSystemException(ErrorMsg.ACCESS_DENIED);
@@ -83,8 +80,6 @@ public class AdminController {
     }
 
     @PutMapping("customers/{customerId}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-    // TODO: 25/01/2023 check if right response
     public Customer updateCustomer(@RequestHeader("Authorization") UUID token, @PathVariable int customerId, @RequestBody CustomerPayload customerPayload) throws CouponSystemException {
         if (!tokenService.isTokenValid(token, ClientType.ADMINISTRATOR)) {
             throw new CouponSystemException(ErrorMsg.ACCESS_DENIED);

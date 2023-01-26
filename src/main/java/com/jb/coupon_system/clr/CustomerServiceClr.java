@@ -41,8 +41,8 @@ public class CustomerServiceClr implements CommandLineRunner {
 //        loginManager.login("pooki@gmail.com", "12345", ClientType.CUSTOMER);
 
         //purchase coupon
-        Coupon couponToPurchase1 = couponRepository.findById(1)
-                .orElseThrow(() -> new CouponSystemException(ErrorMsg.COUPON_NOT_FOUND));
+//        Coupon couponToPurchase1 = couponRepository.findById(1)
+//                .orElseThrow(() -> new CouponSystemException(ErrorMsg.COUPON_NOT_FOUND));
         Coupon couponToPurchase2 = couponRepository.findById(2)
                 .orElseThrow(() -> new CouponSystemException(ErrorMsg.COUPON_NOT_FOUND));
         Coupon couponToPurchase3 = couponRepository.findById(3)

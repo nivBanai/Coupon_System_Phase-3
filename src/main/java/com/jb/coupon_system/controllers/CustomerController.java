@@ -3,46 +3,69 @@ package com.jb.coupon_system.controllers;
 import com.jb.coupon_system.beans.Coupon;
 import com.jb.coupon_system.beans.Customer;
 import com.jb.coupon_system.enums.Category;
+import com.jb.coupon_system.enums.ClientType;
+import com.jb.coupon_system.enums.ErrorMsg;
 import com.jb.coupon_system.exceptions.CouponSystemException;
 import com.jb.coupon_system.services.ClientService;
 import com.jb.coupon_system.services.customer_service.CustomerService;
+import com.jb.coupon_system.services.token_servic.TokenService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/coupon_system/customers")
 @CrossOrigin(origins = "*")
+@RequiredArgsConstructor
 public class CustomerController {
 
     @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
+    @Autowired
+    private final TokenService tokenService;
 
-    @PostMapping("{customerId}/coupons")
+    @PostMapping("coupons")
     @ResponseStatus(HttpStatus.CREATED)
-    public void purchaseCoupon(@PathVariable int customerId, @RequestBody Coupon coupon) throws CouponSystemException {
-        customerService.purchaseCoupon(customerId, coupon);
+    public Coupon purchaseCoupon(@RequestHeader("Authorization") UUID token, @RequestBody Coupon coupon) throws CouponSystemException {
+        if (!tokenService.isTokenValid(token, ClientType.CUSTOMER)) {
+            throw new CouponSystemException(ErrorMsg.ACCESS_DENIED);
+        }
+        return customerService.purchaseCoupon(tokenService.getUserId(token), coupon);
     }
 
-    @GetMapping("{customerId}/coupons")
-    public List<Coupon> getCustomerCoupons(@PathVariable int customerId) {
-        return customerService.getCustomerCoupons(customerId);
+    @GetMapping("coupons")
+    public List<Coupon> getCustomerCoupons(@RequestHeader("Authorization") UUID token) throws CouponSystemException {
+        if (!tokenService.isTokenValid(token, ClientType.CUSTOMER)) {
+            throw new CouponSystemException(ErrorMsg.ACCESS_DENIED);
+        }
+        return customerService.getCustomerCoupons(tokenService.getUserId(token));
     }
 
-    @GetMapping("{customerId}/coupons/filter/categories/{category}")
-    public List<Coupon> getCustomerCouponsByCategory(@PathVariable int customerId, @PathVariable Category category) {
-        return customerService.getCustomerCouponsByCategory(customerId, category);
+    @GetMapping("coupons/filter/categories/{category}")
+    public List<Coupon> getCustomerCouponsByCategory(@RequestHeader("Authorization") UUID token, @PathVariable Category category) throws CouponSystemException {
+        if (!tokenService.isTokenValid(token, ClientType.CUSTOMER)) {
+            throw new CouponSystemException(ErrorMsg.ACCESS_DENIED);
+        }
+        return customerService.getCustomerCouponsByCategory(tokenService.getUserId(token), category);
     }
 
-    @GetMapping("{customerId}/coupons/filter/price/max-price")
-    public List<Coupon> getCustomerCouponsByPrice(@PathVariable int customerId, @RequestParam double price) {
-        return customerService.getCustomerCouponsByPrice(customerId, price);
+    @GetMapping("coupons/filter/price/max-price")
+    public List<Coupon> getCustomerCouponsByPrice(@RequestHeader("Authorization") UUID token, @RequestParam double price) throws CouponSystemException {
+        if (!tokenService.isTokenValid(token, ClientType.CUSTOMER)) {
+            throw new CouponSystemException(ErrorMsg.ACCESS_DENIED);
+        }
+        return customerService.getCustomerCouponsByPrice(tokenService.getUserId(token), price);
     }
 
-    @GetMapping("{customerId}/details")
-    public Customer getCustomerDetails(@PathVariable int customerId) throws CouponSystemException {
-        return customerService.getCustomerDetails(customerId);
+    @GetMapping("details")
+    public Customer getCustomerDetails(@RequestHeader("Authorization") UUID token) throws CouponSystemException {
+        if (!tokenService.isTokenValid(token, ClientType.CUSTOMER)) {
+            throw new CouponSystemException(ErrorMsg.ACCESS_DENIED);
+        }
+        return customerService.getCustomerDetails(tokenService.getUserId(token));
     }
 }

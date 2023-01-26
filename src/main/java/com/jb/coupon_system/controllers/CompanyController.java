@@ -24,7 +24,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CompanyController {
 
-    // TODO: 25/01/2023 check if possible to reduce valid to 1
     @Autowired
     private final CompanyService companyService;
     @Autowired
@@ -40,7 +39,6 @@ public class CompanyController {
     }
 
     @PutMapping("coupons/{couponId}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
     public Coupon updateCoupon(@RequestHeader("Authorization") UUID token, @PathVariable int couponId, @RequestBody CouponPayload couponPayload) throws CouponSystemException {
         if (!tokenService.isTokenValid(token, ClientType.COMPANY)) {
             throw new CouponSystemException(ErrorMsg.ACCESS_DENIED);

@@ -58,13 +58,11 @@ public class AdminServiceImpl extends ClientService implements AdminService {
             throw new CouponSystemException(ErrorMsg.COMPANY_NAME_ERROR);
         }
 
-        originalCompany.setId(companyId);
         originalCompany.setName(companyPayload.getName());
         originalCompany.setEmail(companyPayload.getEmail());
         originalCompany.setPassword(companyPayload.getPassword());
         originalCompany.setCoupons(this.couponRepository.findByCompanyId(companyId));
         return this.companyRepository.saveAndFlush(originalCompany);
-        // TODO: 25/01/2023 check if good(+id?)
     }
 
     @Override
@@ -103,8 +101,6 @@ public class AdminServiceImpl extends ClientService implements AdminService {
         Customer originalCustomer = this.customerRepository.findById(customerId)
                 .orElseThrow(() -> new CouponSystemException(ErrorMsg.CUSTOMER_NOT_FOUND));
 
-        originalCustomer.setId(customerId);
-        // TODO: 25/01/2023 need id and coupons? 
         originalCustomer.setFirstName(customerPayload.getFirstName());
         originalCustomer.setLastName(customerPayload.getLastName());
         originalCustomer.setEmail(customerPayload.getEmail());
@@ -112,7 +108,6 @@ public class AdminServiceImpl extends ClientService implements AdminService {
         originalCustomer.setCoupons(this.couponRepository.findByCustomerId(customerId));
 
         return this.customerRepository.saveAndFlush(originalCustomer);
-        // TODO: 25/01/2023 check if good(+id?)
     }
 
     @Override

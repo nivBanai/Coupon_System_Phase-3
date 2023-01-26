@@ -4,6 +4,7 @@ import com.jb.coupon_system.beans.Coupon;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ServiceUtils {
 
@@ -17,5 +18,9 @@ public class ServiceUtils {
 
     public static void reduceCouponAmount(Coupon coupon) {
         coupon.setAmount(coupon.getAmount() - 1);
+    }
+
+    public static boolean isTokenExpired(LocalDateTime time){
+        return time.isBefore(LocalDateTime.now().minusMinutes(30));
     }
 }

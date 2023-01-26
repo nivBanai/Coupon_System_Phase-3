@@ -5,6 +5,7 @@ import com.jb.coupon_system.enums.ErrorMsg;
 import com.jb.coupon_system.exceptions.CouponSystemException;
 import com.jb.coupon_system.security.Info;
 import com.jb.coupon_system.services.ClientService;
+import com.jb.coupon_system.utils.ServiceUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,24 +25,23 @@ public class TokenServiceImpl implements TokenService {
 
         map.put(token,
                 Info.builder()
-                .id(clientId)
-                .clientType(clientType)
-                .time(LocalDateTime.now())
-                .build());
+                        .id(clientId)
+                        .clientType(clientType)
+                        .time(LocalDateTime.now())
+                        .build());
 
         return token;
     }
 
     @Override
     public void clearTokens() {
-        map.values().removeIf(info->info.getTime().isBefore(LocalDateTime.now().minusMinutes(30)));
-        // TODO: 25/01/2023 (add utils) 
+        map.values().removeIf(info -> ServiceUtils.isTokenExpired(info.getTime()));
     }
 
     @Override
     public boolean isTokenValid(UUID token, ClientType clientType) throws CouponSystemException {
         Info info = map.get(token);
-        if (info == null){
+        if (info == null) {
             throw new CouponSystemException(ErrorMsg.ACCESS_DENIED);
         }
         return info.getClientType().equals(clientType);
@@ -50,7 +50,7 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public int getUserId(UUID token) throws CouponSystemException {
         Info info = map.get(token);
-        if (info == null){
+        if (info == null) {
             throw new CouponSystemException(ErrorMsg.ACCESS_DENIED);
         }
         return info.getId();

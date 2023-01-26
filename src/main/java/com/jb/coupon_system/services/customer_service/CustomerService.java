@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CustomerService {
 
-    void purchaseCoupon(int customerId, Coupon coupon) throws CouponSystemException;
+    Coupon purchaseCoupon(int customerId, Coupon coupon) throws CouponSystemException;
 
     List<Coupon> getCustomerCoupons(int customerId);
 

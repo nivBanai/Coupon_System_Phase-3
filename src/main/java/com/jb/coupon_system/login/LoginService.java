@@ -8,20 +8,22 @@ import com.jb.coupon_system.exceptions.CouponSystemException;
 import com.jb.coupon_system.services.ClientService;
 import com.jb.coupon_system.services.token_servic.TokenService;
 import com.jb.coupon_system.utils.PrintUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class LoginService {
 
     @Autowired
-    private ClientService adminServiceImpl;
+    private final ClientService adminServiceImpl;
     @Autowired
-    private ClientService companyServiceImpl;
+    private final ClientService companyServiceImpl;
     @Autowired
-    private ClientService customerServiceImpl;
+    private final ClientService customerServiceImpl;
     @Autowired
-    private TokenService tokenService;
+    private final TokenService tokenService;
 
     public LoginResDto login(LoginReqDto loginReqDto) throws CouponSystemException {
         String email = loginReqDto.getEmail();
