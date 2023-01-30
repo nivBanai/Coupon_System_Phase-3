@@ -27,6 +27,8 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
     @Override
     public Coupon purchaseCoupon(int customerId, Coupon coupon) throws CouponSystemException {
         int couponId = coupon.getId();
+        Coupon originalCoupon = this.couponRepository.findById(couponId)
+                .orElseThrow(() -> new CouponSystemException(ErrorMsg.COUPON_NOT_FOUND));
         if (this.couponRepository.isPurchaseExists(customerId, couponId)) {
             throw new CouponSystemException(ErrorMsg.COUPON_PURCHASE_LIMIT);
         }
@@ -37,6 +39,7 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
             throw new CouponSystemException(ErrorMsg.COUPON_EXPIRED);
         }
         ServiceUtils.reduceCouponAmount(coupon);
+        coupon.setCompany(originalCoupon.getCompany());
         this.couponRepository.saveAndFlush(coupon);
         this.customerRepository.purchaseCoupon(customerId, couponId);
         return coupon;

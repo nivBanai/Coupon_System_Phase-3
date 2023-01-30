@@ -1,5 +1,6 @@
 package com.jb.coupon_system.beans;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,6 +22,11 @@ public class Customer {
     private String email;
     private String password;
 
-    @ManyToMany(mappedBy = "customers")
+    @ManyToMany
+    @JoinTable(name = "customers_coupons",
+            joinColumns = {@JoinColumn(name = "customer_id", referencedColumnName = "id") },
+            inverseJoinColumns = {@JoinColumn(name = "coupon_id", referencedColumnName = "id")})
+    @ToString.Exclude
+    @JsonIgnore
     private List<Coupon> coupons;
 }

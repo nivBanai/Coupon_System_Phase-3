@@ -67,7 +67,7 @@ public class CompanyServiceClr implements CommandLineRunner {
                 .title("Coupon 4")
                 .description("Description 4")
                 .startDate(Date.valueOf("2022-10-07"))
-                .endDate(Date.valueOf("2023-01-29"))
+                .endDate(Date.valueOf("2023-03-29"))
                 .amount(8)
                 .price(14.4)
                 .image("www.coupon4.com")

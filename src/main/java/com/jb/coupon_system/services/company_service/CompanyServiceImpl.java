@@ -46,6 +46,10 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
 
     @Override
     public Coupon updateCoupon(int companyId, int couponId, CouponPayload couponPayload) throws CouponSystemException {
+        if (this.couponRepository.existsByCompanyIdAndTitle(companyId, couponPayload.getTitle())) {
+            throw new CouponSystemException(ErrorMsg.COUPON_TITLE_TAKEN);
+        }
+
         Coupon originalCoupon = this.couponRepository.findById(couponId)
                         .orElseThrow(()->new CouponSystemException(ErrorMsg.COUPON_NOT_FOUND));
         originalCoupon.setCategory(couponPayload.getCategory());

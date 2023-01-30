@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
-@Component
+//@Component
 @Order(5)
 public class DeleteClr implements CommandLineRunner {
 
