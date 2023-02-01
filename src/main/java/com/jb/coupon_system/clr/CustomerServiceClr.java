@@ -62,37 +62,37 @@ public class CustomerServiceClr implements CommandLineRunner {
         Coupon couponToPurchase10 = couponRepository.findById(10)
                 .orElseThrow(() -> new CouponSystemException(ErrorMsg.COUPON_NOT_FOUND));
 
-        customerService.purchaseCoupon(1, couponToPurchase2);
-        customerService.purchaseCoupon(1, couponToPurchase5);
-        customerService.purchaseCoupon(1, couponToPurchase9);
-        customerService.purchaseCoupon(2, couponToPurchase2);
-        customerService.purchaseCoupon(2, couponToPurchase10);
-        customerService.purchaseCoupon(3, couponToPurchase5);
-        customerService.purchaseCoupon(3, couponToPurchase10);
-        customerService.purchaseCoupon(4, couponToPurchase4);
-        customerService.purchaseCoupon(4, couponToPurchase9);
-        customerService.purchaseCoupon(4, couponToPurchase3);
-        customerService.purchaseCoupon(4, couponToPurchase5);
-        customerService.purchaseCoupon(4, couponToPurchase8);
-        customerService.purchaseCoupon(5, couponToPurchase7);
-        customerService.purchaseCoupon(5, couponToPurchase2);
-        customerService.purchaseCoupon(5, couponToPurchase10);
+        customerService.purchaseCoupon(1, couponToPurchase2.getId());
+        customerService.purchaseCoupon(1, couponToPurchase5.getId());
+        customerService.purchaseCoupon(1, couponToPurchase9.getId());
+        customerService.purchaseCoupon(2, couponToPurchase2.getId());
+        customerService.purchaseCoupon(2, couponToPurchase10.getId());
+        customerService.purchaseCoupon(3, couponToPurchase5.getId());
+        customerService.purchaseCoupon(3, couponToPurchase10.getId());
+        customerService.purchaseCoupon(4, couponToPurchase4.getId());
+        customerService.purchaseCoupon(4, couponToPurchase9.getId());
+        customerService.purchaseCoupon(4, couponToPurchase3.getId());
+        customerService.purchaseCoupon(4, couponToPurchase5.getId());
+        customerService.purchaseCoupon(4, couponToPurchase8.getId());
+        customerService.purchaseCoupon(5, couponToPurchase7.getId());
+        customerService.purchaseCoupon(5, couponToPurchase2.getId());
+        customerService.purchaseCoupon(5, couponToPurchase10.getId());
 
         PrintUtils.printExceptionTitle("Purchase coupon exception (multiple purchase exception)");
         try {
-            customerService.purchaseCoupon(3, couponToPurchase5);
+            customerService.purchaseCoupon(3, couponToPurchase5.getId());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         PrintUtils.printExceptionTitle("Purchase coupon exception (out of stock exception)");
         try {
-            customerService.purchaseCoupon(3, couponToPurchase9);
+            customerService.purchaseCoupon(3, couponToPurchase9.getId());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
         PrintUtils.printExceptionTitle("Purchase coupon exception (expired exception)");
         try {
-            customerService.purchaseCoupon(3, couponToPurchase6);
+            customerService.purchaseCoupon(3, couponToPurchase6.getId());
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
