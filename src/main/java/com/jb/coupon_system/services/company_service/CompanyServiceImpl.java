@@ -20,8 +20,13 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
     }
 
     @Override
-    public int getId(String email) throws CouponSystemException {
+    public int getClientId(String email) throws CouponSystemException {
         return companyRepository.findIdByEmail(email);
+    }
+
+    @Override
+    public String getClientName(String email) throws CouponSystemException {
+        return companyRepository.findNameByEmail(email);
     }
 
     @Override
@@ -30,7 +35,7 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
             throw new CouponSystemException(ErrorMsg.COUPON_TITLE_TAKEN);
         }
 
-       return this.couponRepository.save(Coupon.builder()
+        return this.couponRepository.save(Coupon.builder()
                 .category(couponPayload.getCategory())
                 .title(couponPayload.getTitle())
                 .description(couponPayload.getDescription())
@@ -46,12 +51,16 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
 
     @Override
     public Coupon updateCoupon(int companyId, int couponId, CouponPayload couponPayload) throws CouponSystemException {
-        if (this.couponRepository.existsByCompanyIdAndTitle(companyId, couponPayload.getTitle())) {
+//        if (this.couponRepository.existsByCompanyIdAndTitle(companyId, couponPayload.getTitle())) {
+//            throw new CouponSystemException(ErrorMsg.COUPON_TITLE_TAKEN);
+//        }
+        System.out.println(this.couponRepository.existsByCompanyIdAndTitleAndId(companyId, couponPayload.getTitle(), couponId));
+        if (this.couponRepository.existsByCompanyIdAndTitleAndId(companyId, couponPayload.getTitle(), couponId)) {
             throw new CouponSystemException(ErrorMsg.COUPON_TITLE_TAKEN);
         }
 
         Coupon originalCoupon = this.couponRepository.findById(couponId)
-                        .orElseThrow(()->new CouponSystemException(ErrorMsg.COUPON_NOT_FOUND));
+                .orElseThrow(() -> new CouponSystemException(ErrorMsg.COUPON_NOT_FOUND));
         originalCoupon.setCategory(couponPayload.getCategory());
         originalCoupon.setTitle(couponPayload.getTitle());
         originalCoupon.setDescription(couponPayload.getDescription());

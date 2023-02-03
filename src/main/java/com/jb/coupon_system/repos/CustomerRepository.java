@@ -23,5 +23,9 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
 
     @Query(nativeQuery = true,
             value = "SELECT `id` FROM `coupon_system`.`customers` WHERE (`email` = ?)")
-    int findIdByEmailAndPassword(String email);
+    int findIdByEmail(String email);
+
+    @Query(nativeQuery = true,
+            value = "SELECT `first_name` FROM `coupon_system`.`customers` WHERE (`email` = ?)")
+    String findNameByEmail(String email);
 }

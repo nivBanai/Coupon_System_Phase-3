@@ -20,8 +20,13 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
     }
 
     @Override
-    public int getId(String email) throws CouponSystemException {
-        return customerRepository.findIdByEmailAndPassword(email);
+    public int getClientId(String email) throws CouponSystemException {
+        return customerRepository.findIdByEmail(email);
+    }
+
+    @Override
+    public String getClientName(String email) throws CouponSystemException {
+        return customerRepository.findNameByEmail(email);
     }
 
     @Override

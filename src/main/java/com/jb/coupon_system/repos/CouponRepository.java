@@ -90,4 +90,10 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
             value = "SELECT `company_id` FROM `coupon_system`.`coupons` " +
                     "WHERE (`id` = ?)")
     int findCompanyIdById(int couponId);
+
+    @Query(nativeQuery = true,
+    value = "SELECT CASE WHEN EXISTS (SELECT * FROM `coupon_system`.`coupons`" +
+            "WHERE (`company_id` = ?) AND (`title` = ?) AND (`id` != ?)) " +
+            "THEN 'true' else 'false' END")
+    boolean existsByCompanyIdAndTitleAndId(int companyId, String title, int couponId);
 }

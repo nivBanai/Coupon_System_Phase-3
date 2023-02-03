@@ -17,4 +17,8 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 @Query(nativeQuery = true,
         value = "SELECT `id` FROM `coupon_system`.`companies` WHERE (`email` = ?)")
     int findIdByEmail(String email);
+
+    @Query(nativeQuery = true,
+            value = "SELECT `name` FROM `coupon_system`.`companies` WHERE (`email` = ?)")
+    String findNameByEmail(String email);
 }

@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class LoginController {
 
-    private final LoginService loginManager;
+    private final LoginService loginService;
 
     @PostMapping("login")
     @ResponseStatus(HttpStatus.CREATED)
     public LoginResDto login(@RequestBody LoginReqDto loginReqDto) throws CouponSystemException {
-        return loginManager.login(loginReqDto);
+        return loginService.login(loginReqDto);
     }
 }

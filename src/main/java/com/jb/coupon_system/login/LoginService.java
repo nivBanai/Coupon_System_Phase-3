@@ -55,7 +55,8 @@ public class LoginService {
         }
 
         return LoginResDto.builder()
-                .token(tokenService.createToken(clientService, clientType, clientService.getId(email)))
+                .token(tokenService.createToken(clientService, clientType, clientService.getClientId(email)))
+                .name(clientService.getClientName(email))
                 .build();
     }
 }

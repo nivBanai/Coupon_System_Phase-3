@@ -28,8 +28,13 @@ public class AdminServiceImpl extends ClientService implements AdminService {
     }
 
     @Override
-    public int getId(String email) {
+    public int getClientId(String email) {
         return -1;
+    }
+
+    @Override
+    public String getClientName(String email) throws CouponSystemException {
+        return "Admin";
     }
 
     @Override
