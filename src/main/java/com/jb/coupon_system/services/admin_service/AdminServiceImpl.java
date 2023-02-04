@@ -23,8 +23,8 @@ public class AdminServiceImpl extends ClientService implements AdminService {
     private String adminPassword;
 
     @Override
-    public boolean login(String email, String password) {
-        return Objects.equals(email, adminEmail) && Objects.equals(password, adminPassword);
+    public boolean login(String email, String password) throws CouponSystemException {
+        return (Objects.equals(email, adminEmail) && Objects.equals(password, adminPassword));
     }
 
     @Override

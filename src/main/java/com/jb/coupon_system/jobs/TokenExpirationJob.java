@@ -1,6 +1,6 @@
-package com.jb.coupon_system.filters.jobs;
+package com.jb.coupon_system.jobs;
 
-import com.jb.coupon_system.services.token_servic.TokenService;
+import com.jb.coupon_system.services.token_service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

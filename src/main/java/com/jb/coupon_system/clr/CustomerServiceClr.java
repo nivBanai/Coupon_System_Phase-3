@@ -2,10 +2,9 @@ package com.jb.coupon_system.clr;
 
 import com.jb.coupon_system.beans.Coupon;
 import com.jb.coupon_system.enums.Category;
-import com.jb.coupon_system.enums.ClientType;
 import com.jb.coupon_system.enums.ErrorMsg;
 import com.jb.coupon_system.exceptions.CouponSystemException;
-import com.jb.coupon_system.login.LoginService;
+import com.jb.coupon_system.login.LoginManager;
 import com.jb.coupon_system.repos.CouponRepository;
 import com.jb.coupon_system.services.customer_service.CustomerService;
 import com.jb.coupon_system.utils.PrintUtils;
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Component;
 public class CustomerServiceClr implements CommandLineRunner {
 
     @Autowired
-    private LoginService loginManager;
+    private LoginManager loginManager;
     @Autowired
     private CustomerService customerService;
     @Autowired

@@ -1,4 +1,4 @@
-package com.jb.coupon_system.filters.jobs;
+package com.jb.coupon_system.jobs;
 
 import com.jb.coupon_system.repos.CouponRepository;
 import lombok.RequiredArgsConstructor;

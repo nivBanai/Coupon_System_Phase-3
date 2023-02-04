@@ -6,7 +6,7 @@ import com.jb.coupon_system.enums.ClientType;
 import com.jb.coupon_system.enums.ErrorMsg;
 import com.jb.coupon_system.exceptions.CouponSystemException;
 import com.jb.coupon_system.services.ClientService;
-import com.jb.coupon_system.services.token_servic.TokenService;
+import com.jb.coupon_system.services.token_service.TokenService;
 import com.jb.coupon_system.utils.PrintUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class LoginService {
+public class LoginManager {
 
     @Autowired
     private final ClientService adminServiceImpl;
@@ -29,35 +29,38 @@ public class LoginService {
         String email = loginReqDto.getEmail();
         String password = loginReqDto.getPassword();
         ClientType clientType = loginReqDto.getClientType();
-        ClientService clientService;
+        ClientService clientService = null;
 
         switch (clientType) {
             case ADMINISTRATOR:
-                if (adminServiceImpl.login(email, password)) {
-                    PrintUtils.printSuccess("Admin logged-in successfully!");
-                    clientService = adminServiceImpl;
-                    break;
+                if (!adminServiceImpl.login(email, password)) {
+                    throw new CouponSystemException(ErrorMsg.LOGIN_ERROR);
                 }
-            case COMPANY:
-                if (companyServiceImpl.login(email, password)) {
-                    PrintUtils.printSuccess("Company logged-in successfully!");
-                    clientService = companyServiceImpl;
-                    break;
-                }
-            case CUSTOMER:
-                if (customerServiceImpl.login(email, password)) {
-                    PrintUtils.printSuccess("Customer logged-in successfully!");
-                    clientService = customerServiceImpl;
-                    break;
-                }
-            default:
-                throw new CouponSystemException(ErrorMsg.LOGIN_ERROR);
-        }
+                PrintUtils.printSuccess("Admin logged-in successfully!");
+                clientService = adminServiceImpl;
+                break;
 
+            case COMPANY:
+                if (!companyServiceImpl.login(email, password)) {
+                    throw new CouponSystemException(ErrorMsg.LOGIN_ERROR);
+                }
+                PrintUtils.printSuccess("Company logged-in successfully!");
+                clientService = companyServiceImpl;
+                break;
+
+            case CUSTOMER:
+                if (!customerServiceImpl.login(email, password)) {
+                    throw new CouponSystemException(ErrorMsg.LOGIN_ERROR);
+                }
+                PrintUtils.printSuccess("Customer logged-in successfully!");
+                clientService = customerServiceImpl;
+                break;
+        }
         return LoginResDto.builder()
                 .token(tokenService.createToken(clientService, clientType, clientService.getClientId(email)))
                 .name(clientService.getClientName(email))
                 .build();
+
     }
 }
 

@@ -4,8 +4,7 @@ import com.jb.coupon_system.beans.Company;
 import com.jb.coupon_system.beans.Customer;
 import com.jb.coupon_system.dto.CompanyPayload;
 import com.jb.coupon_system.dto.CustomerPayload;
-import com.jb.coupon_system.enums.ClientType;
-import com.jb.coupon_system.login.LoginService;
+import com.jb.coupon_system.login.LoginManager;
 import com.jb.coupon_system.services.admin_service.AdminService;
 import com.jb.coupon_system.utils.PrintUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Component;
 public class AdminServiceClr implements CommandLineRunner {
 
     @Autowired
-    private LoginService loginManager;
+    private LoginManager loginManager;
     @Autowired
     private AdminService adminService;
 

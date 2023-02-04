@@ -1,4 +1,4 @@
-package com.jb.coupon_system.services.token_servic;
+package com.jb.coupon_system.services.token_service;
 
 import com.jb.coupon_system.enums.ClientType;
 import com.jb.coupon_system.enums.ErrorMsg;
@@ -31,6 +31,11 @@ public class TokenServiceImpl implements TokenService {
                         .build());
 
         return token;
+    }
+
+    @Override
+    public void deleteToken(UUID token) {
+        map.remove(token);
     }
 
     @Override

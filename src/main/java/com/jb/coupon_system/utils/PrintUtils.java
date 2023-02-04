@@ -10,7 +10,7 @@ public class PrintUtils {
     private static final String GREEN_TEXT = "\u001B[32m";
     public static final String YELLOW_TEXT = "\u001B[33m";
     private static final String CHECK_MARK = "\u2713";
-    private static final String X_MARK = "\u274C";
+//    private static final String X_MARK = "\u274C";
 
     private static void printUnderline(String content) {
         for (int i = 0; i < content.length(); i++) {
@@ -51,9 +51,9 @@ public class PrintUtils {
         System.out.println(GREEN_TEXT + CHECK_MARK + " " + msg + RESET_TEXT_COLOR);
     }
 
-    public static String exceptionMsg(String msg) {
-        return RED_TEXT + X_MARK + " " + msg + " " + X_MARK + RESET_TEXT_COLOR;
-    }
+//    public static String exceptionMsg(String msg) {
+//        return RED_TEXT + X_MARK + " " + msg + " " + X_MARK + RESET_TEXT_COLOR;
+//    }
 
     public static void printRes(int resCode, int desiredResCode) {
         System.out.print("Res: ");

@@ -8,7 +8,7 @@ import com.jb.coupon_system.enums.ClientType;
 import com.jb.coupon_system.enums.ErrorMsg;
 import com.jb.coupon_system.exceptions.CouponSystemException;
 import com.jb.coupon_system.services.admin_service.AdminService;
-import com.jb.coupon_system.services.token_servic.TokenService;
+import com.jb.coupon_system.services.token_service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

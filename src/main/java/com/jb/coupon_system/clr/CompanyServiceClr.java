@@ -3,10 +3,9 @@ package com.jb.coupon_system.clr;
 import com.jb.coupon_system.beans.Coupon;
 import com.jb.coupon_system.dto.CouponPayload;
 import com.jb.coupon_system.enums.Category;
-import com.jb.coupon_system.enums.ClientType;
 import com.jb.coupon_system.enums.ErrorMsg;
 import com.jb.coupon_system.exceptions.CouponSystemException;
-import com.jb.coupon_system.login.LoginService;
+import com.jb.coupon_system.login.LoginManager;
 import com.jb.coupon_system.repos.CouponRepository;
 import com.jb.coupon_system.services.company_service.CompanyService;
 import com.jb.coupon_system.utils.PrintUtils;
@@ -22,7 +21,7 @@ import java.sql.Date;
 public class CompanyServiceClr implements CommandLineRunner {
 
     @Autowired
-    private LoginService loginManager;
+    private LoginManager loginManager;
     @Autowired
     private CompanyService companyService;
     @Autowired

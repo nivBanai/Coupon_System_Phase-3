@@ -6,6 +6,6 @@ import com.jb.coupon_system.utils.PrintUtils;
 public class CouponSystemException extends Exception {
 
     public CouponSystemException(ErrorMsg error) {
-        super(PrintUtils.exceptionMsg(error.getMSG()));
+        super(error.getMSG());
     }
 }

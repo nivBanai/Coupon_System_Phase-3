@@ -3,22 +3,36 @@ package com.jb.coupon_system.controllers;
 import com.jb.coupon_system.dto.LoginReqDto;
 import com.jb.coupon_system.dto.LoginResDto;
 import com.jb.coupon_system.exceptions.CouponSystemException;
-import com.jb.coupon_system.login.LoginService;
+import com.jb.coupon_system.login.LoginManager;
+import com.jb.coupon_system.services.token_service.TokenService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.UUID;
 
 @RestController
 @RequestMapping("api/coupon_system")
 @CrossOrigin(origins = "*")
 @RequiredArgsConstructor
-public class LoginController {
+public class AuthController {
 
-    private final LoginService loginService;
+    @Autowired
+    private final LoginManager loginManager;
+
+    @Autowired
+    private final TokenService tokenService;
 
     @PostMapping("login")
     @ResponseStatus(HttpStatus.CREATED)
     public LoginResDto login(@RequestBody LoginReqDto loginReqDto) throws CouponSystemException {
-        return loginService.login(loginReqDto);
+        return loginManager.login(loginReqDto);
+    }
+
+    @DeleteMapping("logout")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void logout(@RequestHeader("Authorization") UUID token) {
+        tokenService.deleteToken(token);
     }
 }

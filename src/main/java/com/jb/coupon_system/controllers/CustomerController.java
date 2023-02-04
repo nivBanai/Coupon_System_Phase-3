@@ -6,12 +6,10 @@ import com.jb.coupon_system.enums.Category;
 import com.jb.coupon_system.enums.ClientType;
 import com.jb.coupon_system.enums.ErrorMsg;
 import com.jb.coupon_system.exceptions.CouponSystemException;
-import com.jb.coupon_system.services.ClientService;
 import com.jb.coupon_system.services.customer_service.CustomerService;
-import com.jb.coupon_system.services.token_servic.TokenService;
+import com.jb.coupon_system.services.token_service.TokenService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
