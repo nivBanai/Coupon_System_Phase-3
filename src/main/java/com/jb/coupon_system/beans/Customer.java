@@ -21,10 +21,11 @@ public class Customer {
     private String lastName;
     private String email;
     private String password;
+    private String profilePic;
 
     @ManyToMany
     @JoinTable(name = "customers_coupons",
-            joinColumns = {@JoinColumn(name = "customer_id", referencedColumnName = "id") },
+            joinColumns = {@JoinColumn(name = "customer_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "coupon_id", referencedColumnName = "id")})
     @ToString.Exclude
     @JsonIgnore

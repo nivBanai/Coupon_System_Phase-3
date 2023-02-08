@@ -30,6 +30,11 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
     }
 
     @Override
+    public String getClientProfilePic(String email) throws CouponSystemException {
+        return companyRepository.findProfilePicByEmail(email);
+    }
+
+    @Override
     public Coupon addCoupon(int companyId, CouponPayload couponPayload) throws CouponSystemException {
         if (this.couponRepository.existsByCompanyIdAndTitle(companyId, couponPayload.getTitle())) {
             throw new CouponSystemException(ErrorMsg.COUPON_TITLE_TAKEN);

@@ -2,6 +2,7 @@ package com.jb.coupon_system.services.customer_service;
 
 import com.jb.coupon_system.beans.Coupon;
 import com.jb.coupon_system.beans.Customer;
+import com.jb.coupon_system.dto.CustomerPayload;
 import com.jb.coupon_system.enums.Category;
 import com.jb.coupon_system.enums.ErrorMsg;
 import com.jb.coupon_system.exceptions.CouponSystemException;
@@ -9,6 +10,7 @@ import com.jb.coupon_system.services.ClientService;
 import com.jb.coupon_system.utils.ServiceUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -27,6 +29,11 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
     @Override
     public String getClientName(String email) throws CouponSystemException {
         return customerRepository.findNameByEmail(email);
+    }
+
+    @Override
+    public String getClientProfilePic(String email) throws CouponSystemException {
+        return customerRepository.findProfilePicByEmail(email);
     }
 
     @Override

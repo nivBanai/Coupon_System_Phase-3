@@ -59,6 +59,7 @@ public class LoginManager {
         return LoginResDto.builder()
                 .token(tokenService.createToken(clientService, clientType, clientService.getClientId(email)))
                 .name(clientService.getClientName(email))
+                .profilePic(clientService.getClientProfilePic(email))
                 .build();
 
     }

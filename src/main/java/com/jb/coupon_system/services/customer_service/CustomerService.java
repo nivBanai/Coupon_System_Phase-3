@@ -2,6 +2,7 @@ package com.jb.coupon_system.services.customer_service;
 
 import com.jb.coupon_system.beans.Coupon;
 import com.jb.coupon_system.beans.Customer;
+import com.jb.coupon_system.dto.CustomerPayload;
 import com.jb.coupon_system.enums.Category;
 import com.jb.coupon_system.exceptions.CouponSystemException;
 

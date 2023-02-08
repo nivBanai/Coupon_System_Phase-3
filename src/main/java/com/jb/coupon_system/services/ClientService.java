@@ -20,4 +20,5 @@ public abstract class ClientService {
 
     public abstract int getClientId(String email) throws CouponSystemException;
     public abstract String getClientName(String email) throws CouponSystemException;
+    public abstract String getClientProfilePic(String email) throws CouponSystemException;
 }

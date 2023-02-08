@@ -15,4 +15,5 @@ public class LoginResDto {
 
     private UUID token;
     private String name;
+    private String profilePic;
 }

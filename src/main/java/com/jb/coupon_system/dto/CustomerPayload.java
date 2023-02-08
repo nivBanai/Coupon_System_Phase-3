@@ -15,4 +15,5 @@ public class CustomerPayload {
     private String lastName;
     private String email;
     private String password;
+    private String profilePic;
 }

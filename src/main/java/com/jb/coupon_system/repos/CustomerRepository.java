@@ -28,4 +28,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     @Query(nativeQuery = true,
             value = "SELECT `first_name` FROM `coupon_system`.`customers` WHERE (`email` = ?)")
     String findNameByEmail(String email);
+
+    @Query(nativeQuery = true,
+            value = "SELECT `profile_pic` FROM `coupon_system`.`customers` WHERE (`email` = ?)")
+    String findProfilePicByEmail(String email);
 }

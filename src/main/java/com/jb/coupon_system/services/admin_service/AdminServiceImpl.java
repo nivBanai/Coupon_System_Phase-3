@@ -38,6 +38,11 @@ public class AdminServiceImpl extends ClientService implements AdminService {
     }
 
     @Override
+    public String getClientProfilePic(String email) throws CouponSystemException {
+        return "";
+    }
+
+    @Override
     public Company addCompany(CompanyPayload companyPayload) throws CouponSystemException {
         if (this.companyRepository.existsByEmail(companyPayload.getEmail())) {
             throw new CouponSystemException(ErrorMsg.EMAIL_TAKEN);
@@ -50,6 +55,7 @@ public class AdminServiceImpl extends ClientService implements AdminService {
                 .name(companyPayload.getName())
                 .email(companyPayload.getEmail())
                 .password(companyPayload.getPassword())
+                .profilePic(companyPayload.getProfilePic())
                 .coupons(new ArrayList<>())
                 .build());
     }
@@ -96,6 +102,7 @@ public class AdminServiceImpl extends ClientService implements AdminService {
                 .lastName(customerPayload.getLastName())
                 .email(customerPayload.getEmail())
                 .password(customerPayload.getPassword())
+                .profilePic(customerPayload.getProfilePic())
                 .coupons(new ArrayList<>())
                 .build());
     }
