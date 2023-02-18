@@ -92,8 +92,15 @@ public interface CouponRepository extends JpaRepository<Coupon, Integer> {
     int findCompanyIdById(int couponId);
 
     @Query(nativeQuery = true,
-    value = "SELECT CASE WHEN EXISTS (SELECT * FROM `coupon_system`.`coupons`" +
-            "WHERE (`company_id` = ?) AND (`title` = ?) AND (`id` != ?)) " +
-            "THEN 'true' else 'false' END")
+            value = "SELECT CASE WHEN EXISTS (SELECT * FROM `coupon_system`.`coupons`" +
+                    "WHERE (`company_id` = ?) AND (`title` = ?) AND (`id` != ?)) " +
+                    "THEN 'true' else 'false' END")
     boolean existsByCompanyIdAndTitleAndId(int companyId, String title, int couponId);
+
+    @Query(nativeQuery = true,
+            value = "SELECT c.* FROM `coupon_system`.`coupons` c " +
+                    "WHERE c.amount > 0 " +
+                    "ORDER BY amount ASC " +
+                    "LIMIT 3")
+    List<Coupon> getThreeWithLowestAmount();
 }

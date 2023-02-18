@@ -17,4 +17,10 @@ public class CouponServiceImpl implements CouponService {
     public List<Coupon> getAllCoupons() {
         return couponRepository.findAll();
     }
+
+    @Override
+    public List<Coupon> getAlmostOutOfStockCoupons() {
+        return couponRepository.getThreeWithLowestAmount();
+    }
+
 }

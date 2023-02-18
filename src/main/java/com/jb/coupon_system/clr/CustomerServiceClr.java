@@ -104,5 +104,8 @@ public class CustomerServiceClr implements CommandLineRunner {
         customerService.getCustomerCouponsByPrice(4, 14).forEach(System.out::println);
         PrintUtils.print("Customer details");
         System.out.println(customerService.getCustomerDetails(4));
+
+        System.out.println("Im Here");
+        couponRepository.getThreeWithLowestAmount().forEach(System.out::println);
     }
 }

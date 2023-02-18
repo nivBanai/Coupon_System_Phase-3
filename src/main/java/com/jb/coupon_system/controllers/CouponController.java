@@ -42,4 +42,9 @@ public class CouponController {
         return couponService.getAllCoupons();
     }
 
+    @GetMapping("sort/amount/asc")
+    public List<Coupon> getAlmostOutOfStockCoupons() {
+        return couponService.getAlmostOutOfStockCoupons();
+    }
+
 }
