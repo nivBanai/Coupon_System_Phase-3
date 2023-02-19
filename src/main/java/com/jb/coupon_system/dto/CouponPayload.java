@@ -1,6 +1,5 @@
 package com.jb.coupon_system.dto;
 
-import com.jb.coupon_system.beans.Company;
 import com.jb.coupon_system.enums.Category;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

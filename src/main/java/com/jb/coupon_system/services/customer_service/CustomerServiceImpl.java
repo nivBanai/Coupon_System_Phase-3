@@ -2,15 +2,15 @@ package com.jb.coupon_system.services.customer_service;
 
 import com.jb.coupon_system.beans.Coupon;
 import com.jb.coupon_system.beans.Customer;
-import com.jb.coupon_system.dto.CustomerPayload;
+import com.jb.coupon_system.dto.ClientInfoDto;
 import com.jb.coupon_system.enums.Category;
 import com.jb.coupon_system.enums.ErrorMsg;
 import com.jb.coupon_system.exceptions.CouponSystemException;
 import com.jb.coupon_system.services.ClientService;
+import com.jb.coupon_system.utils.ConvertUtils;
 import com.jb.coupon_system.utils.ServiceUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,35 +22,29 @@ public class CustomerServiceImpl extends ClientService implements CustomerServic
     }
 
     @Override
-    public int getClientId(String email) throws CouponSystemException {
-        return customerRepository.findIdByEmail(email);
-    }
-
-    @Override
-    public String getClientName(String email) throws CouponSystemException {
-        return customerRepository.findNameByEmail(email);
-    }
-
-    @Override
-    public String getClientProfilePic(String email) throws CouponSystemException {
-        return customerRepository.findProfilePicByEmail(email);
+    public ClientInfoDto getClientIdAndNameAndProfilePic(String email) {
+        return ConvertUtils.convertToClientInfoDto(this.customerRepository.findIdAndNameAndProfilePicByEmail(email));
     }
 
     @Override
     public Coupon purchaseCoupon(int customerId, int couponId) throws CouponSystemException {
-        Coupon coupon = this.couponRepository.findById(couponId)
-                .orElseThrow(() -> new CouponSystemException(ErrorMsg.COUPON_NOT_FOUND));
+
         if (this.couponRepository.isPurchaseExists(customerId, couponId)) {
             throw new CouponSystemException(ErrorMsg.COUPON_PURCHASE_LIMIT);
         }
+
+        Coupon coupon = this.couponRepository.findById(couponId)
+                .orElseThrow(() -> new CouponSystemException(ErrorMsg.COUPON_NOT_FOUND));
+
         if (ServiceUtils.isCouponOutOfStock(coupon.getAmount())) {
             throw new CouponSystemException(ErrorMsg.OUT_OF_STOCK);
         }
+
         if (ServiceUtils.isCouponExpired(coupon.getEndDate())) {
             throw new CouponSystemException(ErrorMsg.COUPON_EXPIRED);
         }
+
         ServiceUtils.reduceCouponAmount(coupon);
-//        coupon.setCompany(originalCoupon.getCompany());
         this.couponRepository.saveAndFlush(coupon);
         this.customerRepository.purchaseCoupon(customerId, couponId);
         return coupon;

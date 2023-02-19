@@ -2,11 +2,14 @@ package com.jb.coupon_system.services.company_service;
 
 import com.jb.coupon_system.beans.Company;
 import com.jb.coupon_system.beans.Coupon;
+import com.jb.coupon_system.dto.ClientInfoDto;
 import com.jb.coupon_system.dto.CouponPayload;
 import com.jb.coupon_system.enums.Category;
 import com.jb.coupon_system.enums.ErrorMsg;
 import com.jb.coupon_system.exceptions.CouponSystemException;
 import com.jb.coupon_system.services.ClientService;
+import com.jb.coupon_system.utils.ConvertUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,60 +23,44 @@ public class CompanyServiceImpl extends ClientService implements CompanyService 
     }
 
     @Override
-    public int getClientId(String email) throws CouponSystemException {
-        return companyRepository.findIdByEmail(email);
-    }
-
-    @Override
-    public String getClientName(String email) throws CouponSystemException {
-        return companyRepository.findNameByEmail(email);
-    }
-
-    @Override
-    public String getClientProfilePic(String email) throws CouponSystemException {
-        return companyRepository.findProfilePicByEmail(email);
+    public ClientInfoDto getClientIdAndNameAndProfilePic(String email) {
+        return ConvertUtils.convertToClientInfoDto(this.companyRepository.findIdAndNameAndProfilePicByEmail(email));
     }
 
     @Override
     public Coupon addCoupon(int companyId, CouponPayload couponPayload) throws CouponSystemException {
+
         if (this.couponRepository.existsByCompanyIdAndTitle(companyId, couponPayload.getTitle())) {
             throw new CouponSystemException(ErrorMsg.COUPON_TITLE_TAKEN);
         }
 
-        return this.couponRepository.save(Coupon.builder()
-                .category(couponPayload.getCategory())
-                .title(couponPayload.getTitle())
-                .description(couponPayload.getDescription())
-                .startDate(couponPayload.getStartDate())
-                .endDate(couponPayload.getEndDate())
-                .amount(couponPayload.getAmount())
-                .price(couponPayload.getPrice())
-                .image(couponPayload.getImage())
-                .company(this.companyRepository.findById(companyId)
-                        .orElseThrow(() -> new CouponSystemException(ErrorMsg.COMPANY_NOT_FOUND)))
-                .build());
+        return this.couponRepository.save(
+                Coupon.builder()
+                        .category(couponPayload.getCategory())
+                        .title(couponPayload.getTitle())
+                        .description(couponPayload.getDescription())
+                        .startDate(couponPayload.getStartDate())
+                        .endDate(couponPayload.getEndDate())
+                        .amount(couponPayload.getAmount())
+                        .price(couponPayload.getPrice())
+                        .image(couponPayload.getImage())
+                        .company(this.companyRepository.findById(companyId)
+                                .orElseThrow(() -> new CouponSystemException(ErrorMsg.COMPANY_NOT_FOUND)))
+                        .build());
     }
 
     @Override
     public Coupon updateCoupon(int companyId, int couponId, CouponPayload couponPayload) throws CouponSystemException {
-//        if (this.couponRepository.existsByCompanyIdAndTitle(companyId, couponPayload.getTitle())) {
-//            throw new CouponSystemException(ErrorMsg.COUPON_TITLE_TAKEN);
-//        }
-        System.out.println(this.couponRepository.existsByCompanyIdAndTitleAndId(companyId, couponPayload.getTitle(), couponId));
+
         if (this.couponRepository.existsByCompanyIdAndTitleAndId(companyId, couponPayload.getTitle(), couponId)) {
             throw new CouponSystemException(ErrorMsg.COUPON_TITLE_TAKEN);
         }
 
         Coupon originalCoupon = this.couponRepository.findById(couponId)
                 .orElseThrow(() -> new CouponSystemException(ErrorMsg.COUPON_NOT_FOUND));
-        originalCoupon.setCategory(couponPayload.getCategory());
-        originalCoupon.setTitle(couponPayload.getTitle());
-        originalCoupon.setDescription(couponPayload.getDescription());
-        originalCoupon.setStartDate(couponPayload.getStartDate());
-        originalCoupon.setEndDate(couponPayload.getEndDate());
-        originalCoupon.setAmount(couponPayload.getAmount());
-        originalCoupon.setPrice(couponPayload.getPrice());
-        originalCoupon.setImage(couponPayload.getImage());
+
+        BeanUtils.copyProperties(couponPayload, originalCoupon);
+
         return this.couponRepository.saveAndFlush(originalCoupon);
     }
 

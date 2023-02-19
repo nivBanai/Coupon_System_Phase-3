@@ -1,4 +1,4 @@
-package com.jb.coupon_system.clr;
+package com.jb.coupon_system.clr.off;
 
 import com.jb.coupon_system.services.admin_service.AdminService;
 import com.jb.coupon_system.services.company_service.CompanyService;

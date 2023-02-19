@@ -26,15 +26,6 @@ public class CustomerController {
     @Autowired
     private final TokenService tokenService;
 
-//    @PostMapping("coupons")
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public Coupon purchaseCoupon(@RequestHeader("Authorization") UUID token, @RequestBody Coupon coupon) throws CouponSystemException {
-//        if (!tokenService.isTokenValid(token, ClientType.CUSTOMER)) {
-//            throw new CouponSystemException(ErrorMsg.ACCESS_DENIED);
-//        }
-//        return customerService.purchaseCoupon(tokenService.getUserId(token), coupon);
-//    }
-
     @GetMapping("coupons")
     public List<Coupon> getCustomerCoupons(@RequestHeader("Authorization") UUID token) throws CouponSystemException {
         if (!tokenService.isTokenValid(token, ClientType.CUSTOMER)) {

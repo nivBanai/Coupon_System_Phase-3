@@ -2,11 +2,13 @@ package com.jb.coupon_system.services.admin_service;
 
 import com.jb.coupon_system.beans.Company;
 import com.jb.coupon_system.beans.Customer;
+import com.jb.coupon_system.dto.ClientInfoDto;
 import com.jb.coupon_system.dto.CompanyPayload;
 import com.jb.coupon_system.dto.CustomerPayload;
 import com.jb.coupon_system.enums.ErrorMsg;
 import com.jb.coupon_system.exceptions.CouponSystemException;
 import com.jb.coupon_system.services.ClientService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -23,27 +25,21 @@ public class AdminServiceImpl extends ClientService implements AdminService {
     private String adminPassword;
 
     @Override
-    public boolean login(String email, String password) throws CouponSystemException {
+    public boolean login(String email, String password) {
         return (Objects.equals(email, adminEmail) && Objects.equals(password, adminPassword));
     }
 
     @Override
-    public int getClientId(String email) {
-        return -1;
-    }
-
-    @Override
-    public String getClientName(String email) throws CouponSystemException {
-        return "Admin";
-    }
-
-    @Override
-    public String getClientProfilePic(String email) throws CouponSystemException {
-        return "";
+    public ClientInfoDto getClientIdAndNameAndProfilePic(String email) {
+        return ClientInfoDto.builder()
+                .id(-1)
+                .name("Admin")
+                .build();
     }
 
     @Override
     public Company addCompany(CompanyPayload companyPayload) throws CouponSystemException {
+
         if (this.companyRepository.existsByEmail(companyPayload.getEmail())) {
             throw new CouponSystemException(ErrorMsg.EMAIL_TAKEN);
         }
@@ -51,17 +47,19 @@ public class AdminServiceImpl extends ClientService implements AdminService {
             throw new CouponSystemException(ErrorMsg.NAME_TAKEN);
         }
 
-        return this.companyRepository.save(Company.builder()
-                .name(companyPayload.getName())
-                .email(companyPayload.getEmail())
-                .password(companyPayload.getPassword())
-                .profilePic(companyPayload.getProfilePic())
-                .coupons(new ArrayList<>())
-                .build());
+        return this.companyRepository.save(
+                Company.builder()
+                        .name(companyPayload.getName())
+                        .email(companyPayload.getEmail())
+                        .password(companyPayload.getPassword())
+                        .profilePic(companyPayload.getProfilePic())
+                        .coupons(new ArrayList<>())
+                        .build());
     }
 
     @Override
     public Company updateCompany(int companyId, CompanyPayload companyPayload) throws CouponSystemException {
+
         Company originalCompany = this.companyRepository.findById(companyId)
                 .orElseThrow(() -> new CouponSystemException(ErrorMsg.COMPANY_NOT_FOUND));
 
@@ -69,10 +67,8 @@ public class AdminServiceImpl extends ClientService implements AdminService {
             throw new CouponSystemException(ErrorMsg.COMPANY_NAME_ERROR);
         }
 
-        originalCompany.setName(companyPayload.getName());
-        originalCompany.setEmail(companyPayload.getEmail());
-        originalCompany.setPassword(companyPayload.getPassword());
-        originalCompany.setCoupons(this.couponRepository.findByCompanyId(companyId));
+        BeanUtils.copyProperties(companyPayload, originalCompany);
+
         return this.companyRepository.saveAndFlush(originalCompany);
     }
 
@@ -94,17 +90,20 @@ public class AdminServiceImpl extends ClientService implements AdminService {
 
     @Override
     public Customer addCustomer(CustomerPayload customerPayload) throws CouponSystemException {
+
         if (this.customerRepository.existsByEmail(customerPayload.getEmail())) {
             throw new CouponSystemException(ErrorMsg.EMAIL_TAKEN);
         }
-        return this.customerRepository.save(Customer.builder()
-                .firstName(customerPayload.getFirstName())
-                .lastName(customerPayload.getLastName())
-                .email(customerPayload.getEmail())
-                .password(customerPayload.getPassword())
-                .profilePic(customerPayload.getProfilePic())
-                .coupons(new ArrayList<>())
-                .build());
+
+        return this.customerRepository.save(
+                Customer.builder()
+                        .firstName(customerPayload.getFirstName())
+                        .lastName(customerPayload.getLastName())
+                        .email(customerPayload.getEmail())
+                        .password(customerPayload.getPassword())
+                        .profilePic(customerPayload.getProfilePic())
+                        .coupons(new ArrayList<>())
+                        .build());
     }
 
     @Override
@@ -113,11 +112,7 @@ public class AdminServiceImpl extends ClientService implements AdminService {
         Customer originalCustomer = this.customerRepository.findById(customerId)
                 .orElseThrow(() -> new CouponSystemException(ErrorMsg.CUSTOMER_NOT_FOUND));
 
-        originalCustomer.setFirstName(customerPayload.getFirstName());
-        originalCustomer.setLastName(customerPayload.getLastName());
-        originalCustomer.setEmail(customerPayload.getEmail());
-        originalCustomer.setPassword(customerPayload.getPassword());
-        originalCustomer.setCoupons(this.couponRepository.findByCustomerId(customerId));
+        BeanUtils.copyProperties(customerPayload, originalCustomer);
 
         return this.customerRepository.saveAndFlush(originalCustomer);
     }

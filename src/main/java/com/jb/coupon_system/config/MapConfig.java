@@ -12,7 +12,7 @@ import java.util.UUID;
 public class MapConfig {
 
     @Bean
-    public Map<UUID, Info> map(){
+    public Map<UUID, Info> map() {
         return new HashMap<>();
     }
 }

@@ -16,12 +16,12 @@ public class Company {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     private String name;
     private String email;
     private String password;
     private String profilePic;
+
     @OneToMany(mappedBy = "company", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Coupon> coupons;
-
-
 }

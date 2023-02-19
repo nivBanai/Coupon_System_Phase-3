@@ -1,14 +1,9 @@
 package com.jb.coupon_system.clr;
 
-import com.jb.coupon_system.beans.Coupon;
 import com.jb.coupon_system.dto.CouponPayload;
 import com.jb.coupon_system.enums.Category;
-import com.jb.coupon_system.enums.ErrorMsg;
-import com.jb.coupon_system.exceptions.CouponSystemException;
-import com.jb.coupon_system.login.LoginManager;
-import com.jb.coupon_system.repos.CouponRepository;
 import com.jb.coupon_system.services.company_service.CompanyService;
-import com.jb.coupon_system.utils.PrintUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
@@ -18,14 +13,11 @@ import java.sql.Date;
 
 @Component
 @Order(3)
+@RequiredArgsConstructor
 public class CompanyServiceClr implements CommandLineRunner {
 
     @Autowired
-    private LoginManager loginManager;
-    @Autowired
-    private CompanyService companyService;
-    @Autowired
-    private CouponRepository couponRepository;
+    private final CompanyService companyService;
 
     @Override
     public void run(String... args) throws Exception {
@@ -92,7 +84,7 @@ public class CompanyServiceClr implements CommandLineRunner {
                 .description("Get a free popcorn and a pair of drinks of your choice when purchasing a pair of movie tickets!")
                 .startDate(Date.valueOf("2022-11-01"))
                 .endDate(Date.valueOf("2023-10-30"))
-                .amount(3)
+                .amount(4)
                 .price(24.49)
                 .image("https://fox5theatre.com/wp-content/uploads/2020/03/PopcornCombo.jpg")
                 .build();
@@ -141,18 +133,6 @@ public class CompanyServiceClr implements CommandLineRunner {
                 .image("https://imageio.forbes.com/specials-images/imageserve/6135fd17488c82343149f144/0x0.jpg?format=jpg&width=1200")
                 .build();
 
-        PrintUtils.printTitle("COMPANY SERVICE TESTING");
-
-        PrintUtils.printExceptionTitle("Company login exception");
-        try {
-//            loginManager.login("not-a-company@gmail.com", "12345", ClientType.COMPANY);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        PrintUtils.printLogin("Company Login");
-//        loginManager.login("nintendo@gmail.com", "12345", ClientType.COMPANY);
-
         //add coupon
         companyService.addCoupon(1, coup1);
         companyService.addCoupon(1, coup2);
@@ -165,46 +145,5 @@ public class CompanyServiceClr implements CommandLineRunner {
         companyService.addCoupon(5, coup9);
         companyService.addCoupon(5, coup10);
 
-        PrintUtils.printExceptionTitle("Add coupon exception");
-        try {
-//            companyService.addCoupon(5, CouponPayload.builder()
-//                    .title("Coupon 8")
-//                    .build());
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-
-        PrintUtils.print("Company coupons");
-        companyService.getCompanyCoupons(5).forEach(System.out::println);
-
-        //update coupon
-        Coupon couponToUpdate = couponRepository.findById(8)
-                .orElseThrow(() -> new CouponSystemException(ErrorMsg.COUPON_NOT_FOUND));
-        couponToUpdate.setPrice(200);
-//        companyService.updateCoupon(5, 8, couponToUpdate);
-        PrintUtils.print("Company coupons after update");
-        companyService.getCompanyCoupons(5).forEach(System.out::println);
-
-        PrintUtils.printExceptionTitle("Update coupon exception (company id exception)");
-        try {
-//            companyService.updateCoupon(1, 8, couponToUpdate);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-        PrintUtils.printExceptionTitle("Update coupon exception (coupon id exception)");
-        try {
-            couponToUpdate.setId(55);
-//            companyService.updateCoupon(5, 8, couponToUpdate);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
-
-        PrintUtils.print("Company coupons by category");
-        companyService.getCompanyCouponsByCategory(5, Category.FOOD).forEach(System.out::println);
-        PrintUtils.print("Company coupons by price");
-        companyService.getCompanyCouponsByPrice(5, 20).forEach(System.out::println);
-        PrintUtils.print("Company details");
-        System.out.println(companyService.getCompanyDetails(5));
     }
 }

@@ -20,7 +20,7 @@ public class ServiceUtils {
         coupon.setAmount(coupon.getAmount() - 1);
     }
 
-    public static boolean isTokenExpired(LocalDateTime time){
+    public static boolean isTokenExpired(LocalDateTime time) {
         return time.isBefore(LocalDateTime.now().minusMinutes(30));
     }
 }

@@ -21,6 +21,7 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public UUID createToken(ClientService client, ClientType clientType, int clientId) {
+
         UUID token = UUID.randomUUID();
 
         map.put(token,

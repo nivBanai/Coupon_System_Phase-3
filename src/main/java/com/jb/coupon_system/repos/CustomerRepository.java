@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.Map;
 
 @Repository
 public interface CustomerRepository extends JpaRepository<Customer, Integer> {
@@ -22,14 +23,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Integer> {
     void purchaseCoupon(int customerId, int couponId);
 
     @Query(nativeQuery = true,
-            value = "SELECT `id` FROM `coupon_system`.`customers` WHERE (`email` = ?)")
-    int findIdByEmail(String email);
-
-    @Query(nativeQuery = true,
-            value = "SELECT `first_name` FROM `coupon_system`.`customers` WHERE (`email` = ?)")
-    String findNameByEmail(String email);
-
-    @Query(nativeQuery = true,
-            value = "SELECT `profile_pic` FROM `coupon_system`.`customers` WHERE (`email` = ?)")
-    String findProfilePicByEmail(String email);
+            value = "SELECT `id`, `first_name` as name, `profile_pic` " +
+                    "FROM `coupon_system`.`customers` " +
+                    "WHERE (`email` = ?)")
+    Map<String, Object> findIdAndNameAndProfilePicByEmail(String email);
 }

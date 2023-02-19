@@ -7,5 +7,6 @@ import java.util.List;
 public interface CouponService {
 
     List<Coupon> getAllCoupons();
-    List<Coupon> getAlmostOutOfStockCoupons();
+
+    List<Coupon> get3AlmostOutOfStockCoupons();
 }

@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Map;
+
 @Repository
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
@@ -14,15 +16,9 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
     boolean existsByEmail(String email);
 
-@Query(nativeQuery = true,
-        value = "SELECT `id` FROM `coupon_system`.`companies` WHERE (`email` = ?)")
-    int findIdByEmail(String email);
-
     @Query(nativeQuery = true,
-            value = "SELECT `name` FROM `coupon_system`.`companies` WHERE (`email` = ?)")
-    String findNameByEmail(String email);
-
-    @Query(nativeQuery = true,
-            value = "SELECT `profile_pic` FROM `coupon_system`.`companies` WHERE (`email` = ?)")
-    String findProfilePicByEmail(String email);
+            value = "SELECT `id`, `name`, `profile_pic` " +
+                    "FROM `coupon_system`.`companies` " +
+                    "WHERE (`email` = ?)")
+    Map<String, Object> findIdAndNameAndProfilePicByEmail(String email);
 }

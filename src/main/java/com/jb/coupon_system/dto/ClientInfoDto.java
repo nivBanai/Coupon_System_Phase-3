@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class CustomerRegisterDto {
+public class ClientInfoDto {
 
-    private String firstName;
-    private String lastName;
-    private String email;
-    private String password;
-    private String confirmPassword;
+    private int id;
+    private String name;
+    private String profilePic;
 }

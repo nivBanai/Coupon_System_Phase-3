@@ -43,8 +43,8 @@ public class CouponController {
     }
 
     @GetMapping("sort/amount/asc")
-    public List<Coupon> getAlmostOutOfStockCoupons() {
-        return couponService.getAlmostOutOfStockCoupons();
+    public List<Coupon> get3AlmostOutOfStockCoupons() {
+        return couponService.get3AlmostOutOfStockCoupons();
     }
 
 }
