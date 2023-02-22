@@ -17,6 +17,6 @@ public class TokenExpirationJob {
 
     @Scheduled(fixedDelay = FIXED_DELAY)
     public void clearExpiredTokens() {
-        tokenService.clearTokens();
+        tokenService.clearExpiredTokens();
     }
 }

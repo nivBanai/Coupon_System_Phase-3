@@ -12,7 +12,7 @@ public interface TokenService {
 
     void deleteToken(UUID token);
 
-    void clearTokens();
+    void clearExpiredTokens();
 
     boolean isTokenValid(UUID token, ClientType clientType) throws CouponSystemException;
 

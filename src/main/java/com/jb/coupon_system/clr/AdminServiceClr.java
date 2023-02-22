@@ -44,7 +44,7 @@ public class AdminServiceClr implements CommandLineRunner {
 
         CompanyPayload comp4 = CompanyPayload.builder()
                 .name("Yes Planet")
-                .email("yes-palnet@walla.com")
+                .email("yes-planet@walla.com")
                 .password("12345")
                 .profilePic("https://www.icoupons.co.il/wp-content/uploads/2021/08/%D7%99%D7%A1-%D7%A4%D7%9C%D7%A0%D7%98.jpeg")
                 .build();

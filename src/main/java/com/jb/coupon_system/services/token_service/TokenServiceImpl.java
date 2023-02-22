@@ -40,7 +40,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public void clearTokens() {
+    public void clearExpiredTokens() {
         map.values().removeIf(info -> ServiceUtils.isTokenExpired(info.getTime()));
     }
 
